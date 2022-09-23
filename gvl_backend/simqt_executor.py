@@ -35,9 +35,9 @@ def get_global_score_files(dir):
             os.path.join(dir, 'global_mwu_p_values.csv')]
 
 
-def get_global_scores(global_file):
-    global_p_values = pd.read_csv(str(global_file[0]))
-    global_mwu_values = pd.read_csv(str(global_file[1]))
+def get_global_scores(global_files):
+    global_p_values = pd.read_csv(str(global_files[0]))
+    global_mwu_values = pd.read_csv(str(global_files[1]))
     return {'empirical_p_values': global_p_values.to_dict(), 'mwu_p_values': global_mwu_values.to_dict()}
 
 
@@ -74,7 +74,7 @@ def get_cluster_scores(path_to_local_distances, node_ids):
                             local_distances['distance_type'] == distance_type)]['distance'].to_list()[0]
                 sum_true += true_distance
             except:
-                print(f'Node {node_id} not found in {distance_type} distance type')
+                # print(f'Node {node_id} not found in {distance_type} distance type')
                 pass
         sum_local_distance_true['distance_type'].append(distance_type)
         sum_local_distance_true['sum_distance'].append(sum_true)
@@ -91,7 +91,7 @@ def get_cluster_scores(path_to_local_distances, node_ids):
                                              (ld_slice['distance_type'] == distance_type)]['distance'].to_list()[0]
                     sum_random += rand_distance
                 except:
-                    print(f'Node {node_id} not found in {distance_type} distance type')
+                    # print(f'Node {node_id} not found in {distance_type} distance type')
                     pass
             sum_local_distance_random['distance_type'].append(distance_type)
             sum_local_distance_random['sum_distance'].append(sum_random)
