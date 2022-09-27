@@ -1,6 +1,6 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from gvl_backend import simqt_executor
+from graphsimviz_backend import simqt_executor
 
 
 @api_view(['POST'])

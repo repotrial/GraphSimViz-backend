@@ -1,6 +1,6 @@
 from django.core.management import BaseCommand
-import gvl_backend.simqt_executor as executor
-from gvl_backend.mailer import server_startup
+import graphsimviz_backend.simqt_executor as executor
+from graphsimviz_backend.mailer import server_startup
 
 
 class Command(BaseCommand):

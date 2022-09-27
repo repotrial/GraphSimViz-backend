@@ -7,9 +7,9 @@ import rq
 import os
 import json
 
-import gvl_backend.simqt_executor
-from gvl_backend.tasks.task_hook import TaskHook
-from gvl_backend.mailer import error_notification
+import graphsimviz_backend.simqt_executor
+from graphsimviz_backend.tasks.task_hook import TaskHook
+from graphsimviz_backend.mailer import error_notification
 
 qr_r = redis.Redis(host=os.getenv('REDIS_HOST', 'digest_redis'),
                    port=os.getenv('REDIS_PORT', 6379),
@@ -39,17 +39,17 @@ def run_task(uid, mode, parameters, set_files):
     # task_hook = TaskHook(parameters, set_status, set_result, set_files, set_progress, dispatch_sig_contr_calculation)
     # try:
     #     if mode == 'set':
-    #         gvl_backend.digest_executor.run_set(task_hook)
+    #         graphsimviz_backend.digest_executor.run_set(task_hook)
     #     elif mode == 'subnetwork':
-    #         gvl_backend.digest_executor.run_subnetwork(task_hook)
+    #         graphsimviz_backend.digest_executor.run_subnetwork(task_hook)
     #     elif mode == 'subnetwork-set':
-    #         gvl_backend.digest_executor.run_subnetwork_set(task_hook)
+    #         graphsimviz_backend.digest_executor.run_subnetwork_set(task_hook)
     #     elif mode == 'id-set':
-    #         gvl_backend.digest_executor.run_id_set(task_hook)
+    #         graphsimviz_backend.digest_executor.run_id_set(task_hook)
     #     elif mode == 'set-set':
-    #         gvl_backend.digest_executor.run_set_set(task_hook)
+    #         graphsimviz_backend.digest_executor.run_set_set(task_hook)
     #     elif mode == 'cluster':
-    #         gvl_backend.digest_executor.run_cluster(task_hook)
+    #         graphsimviz_backend.digest_executor.run_cluster(task_hook)
     #
     # except Exception as e:
     #     print("Error in DIGEST execution:")

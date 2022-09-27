@@ -2,21 +2,17 @@ version: '3.3'
 
 services:
   app:
-    image: gvl_backend
-    container_name: gvl_backend
+    image: graphsimviz_backend
+    container_name: graphsimviz_backend
     build: .
     env_file:
       - './docker-django.env.dev'
     restart: always
-#    volumes:
-#      - digest_volume:/usr/src/digest/mapping_files
     command:
       - "sh"
-      - "/usr/src/gvl/docker-entrypoint.sh"
+      - "/usr/src/graphsimviz/docker-entrypoint.sh"
     ports:
       - 8001:8000
-#    networks:
-#      - digest_net
     depends_on:
       - db
       - redis
@@ -24,10 +20,8 @@ services:
     image: redis
     restart: always
     command: [ "redis-server" ]
-    container_name: gvl_redis
-    hostname: gvl_redis
-#    networks:
-#      - gvl_net
+    container_name: graphsimviz_redis
+    hostname: graphsimviz_redis
     depends_on:
       - db
 #  celery:
@@ -75,14 +69,14 @@ services:
   db:
     image: postgres
     restart: always
-    container_name: gvl_db
+    container_name: graphsimviz_db
     hostname: db
     ports:
       - 5432:5432
 #    networks:
 #      - gvl_net
     volumes:
-      - gvl_db_volume:/var/lib/postgresql/example_files
+      - graphsimviz_db_volume:/var/lib/postgresql/example_files
     env_file:
       - './docker-django.env.dev'
     command:
@@ -92,9 +86,6 @@ services:
       - "-c"
       - "shared_buffers=2GB"
 
-#networks:
-#  gvl_net:
 
 volumes:
-#  digest_volume:
-  gvl_db_volume:
+  graphsimviz_db_volume:

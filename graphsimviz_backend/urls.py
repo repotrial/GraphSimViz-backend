@@ -1,4 +1,4 @@
-"""gvl_backend URL Configuration
+"""graphsimviz_backend URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/3.0/topics/http/urls/
@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.urls import path
 
-from gvl_backend.views import get_scores, get_global_scores, get_cluster_scores, get_local_scores
+from graphsimviz_backend.views import get_scores, get_global_scores, get_cluster_scores, get_local_scores
 urlpatterns = [
     path('get_scores', get_scores),
     path('get_global_scores', get_global_scores),

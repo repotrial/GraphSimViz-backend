@@ -3,8 +3,8 @@ import os
 import pandas as pd
 
 
-# from gvl_backend.tasks.task_hook import TaskHook
-# import gvl_backend.graphsimqt as graphsimqt
+# from graphsimviz_backend.tasks.task_hook import TaskHook
+# import graphsimviz_backend.graphsimqt as graphsimqt
 
 
 def get_data_dir():

@@ -1,5 +1,5 @@
 FROM ubuntu:latest
-WORKDIR /usr/src/gvl/
+WORKDIR /usr/src/graphsimviz/
 
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
@@ -33,7 +33,7 @@ WORKDIR /usr/src/data
 RUN unzip -q \*.zip
 RUN rm *.zip
 
-WORKDIR /usr/src/gvl/
+WORKDIR /usr/src/graphsimviz/
 
 COPY . .
 RUN rm -rf data
