@@ -15,12 +15,13 @@ Including another URLconf
 """
 from django.urls import path
 
-from graphsimviz_backend.views import get_scores, get_global_scores, get_cluster_scores, get_local_scores
+from graphsimviz_backend.views import get_scores, get_global_scores, get_cluster_scores, get_local_scores, get_networks
 urlpatterns = [
     path('get_scores', get_scores),
     path('get_global_scores', get_global_scores),
     path('get_cluster_scores', get_cluster_scores),
-    path('get_local_scores', get_local_scores)
+    path('get_local_scores', get_local_scores),
+    path('get_networks', get_networks)
 
     # path('update',run_update),
     # path('sig_cont', run_sig_cont)

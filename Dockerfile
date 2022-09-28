@@ -33,6 +33,15 @@ WORKDIR /usr/src/data
 RUN unzip -q \*.zip
 RUN rm *.zip
 
+WORKDIR /usr/src/
+
+RUN apt-get install -y ssh git
+RUN mkdir ~/.ssh/
+RUN ssh-keyscan github.com >> ~/.ssh/known_hosts
+RUN git clone https://github.com/repotrial/graphsimqt.git
+RUN mv graphsimqt/data/graphs .
+RUN rm -rf graphsimqt
+
 WORKDIR /usr/src/graphsimviz/
 
 COPY . .
