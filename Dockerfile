@@ -42,6 +42,10 @@ RUN git clone https://github.com/repotrial/graphsimqt.git
 RUN mv graphsimqt/data/graphs .
 RUN rm -rf graphsimqt
 
+WORKDIR graphs/disease_disease
+RUN unzip -q \*.zip
+RUN rm *.zip
+
 WORKDIR /usr/src/graphsimviz/
 
 COPY . .

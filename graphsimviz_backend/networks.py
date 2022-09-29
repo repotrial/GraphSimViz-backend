@@ -28,6 +28,7 @@ def get_network_files(network1, network2, id_space):
     suffix = suffix + ('_based_pruned_below4lev.gt' if suffix == 'symptom' else '_based.gt')
 
     file1 = os.path.join(wd, f'{id_space_prefix}_{suffix}')
+    print(file1)
     if os.path.exists(file1):
         files.append(file1)
     else:
@@ -38,6 +39,7 @@ def get_network_files(network1, network2, id_space):
     suffix = suffix + ('_based_pruned_below4lev.gt' if suffix == 'symptom' else '_based.gt')
 
     file2 = os.path.join(wd, f'{id_space_prefix}_{suffix}')
+    print(file2)
     if os.path.exists(file2):
         files.append(file2)
     else:
