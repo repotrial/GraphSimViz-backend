@@ -12,7 +12,7 @@ services:
       - "sh"
       - "/usr/src/graphsimviz/docker-entrypoint.sh"
     ports:
-      - 8001:8000
+      - 8032:8000
     networks:
         - graphsimviz_net
     depends_on:
@@ -81,8 +81,8 @@ services:
     restart: always
     container_name: graphsimviz_db
     hostname: graphsimviz_db
-    ports:
-      - 5432:5432
+#    ports:
+#      - 5432:5432
     volumes:
       - graphsimviz_db_volume:/var/lib/postgresql/example_files
     environment:
