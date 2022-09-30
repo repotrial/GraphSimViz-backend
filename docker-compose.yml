@@ -6,13 +6,15 @@ services:
     container_name: graphsimviz_backend
     build: .
     env_file:
-      - './docker-django.env.dev'
+      - './docker-django.env'
     restart: always
     command:
       - "sh"
       - "/usr/src/graphsimviz/docker-entrypoint.sh"
     ports:
       - 8001:8000
+    networks:
+        - graphsimviz_net
     depends_on:
       - db
       - redis
@@ -22,63 +24,72 @@ services:
     command: [ "redis-server" ]
     container_name: graphsimviz_redis
     hostname: graphsimviz_redis
+#    networks:
+#      - graphsimviz_net
     depends_on:
       - db
-#  celery:
-#    command:
-#      - "sh"
-#      - "/usr/src/digest/scripts/start_celery_worker.sh"
-#    restart: always
-#    build: .
-#    container_name: digest_celery
-#    hostname: digest_celery
-#    env_file:
-#      - './docker-django.env.dev'
-#    volumes:
-#      - digest_volume:/usr/src/digest/mapping_files
-#    depends_on:
-#      - redis
-#      - db
-#    networks:
-#      - digest_net
-#  celery-beat:
-#    command:
-#      - "sh"
-#      - "/usr/src/digest/scripts/start_celery_beat.sh"
-#    build: .
-#    container_name: digest_celery_beat
-#    hostname: digest_celery_beat
-#    env_file:
-#      - './docker-django.env.dev'
-#    volumes:
-#      - ./:/usr/src/digest/
-#    depends_on:
-#      - redis
-#      - db
-#    networks:
-#      - digest_net
+  celery:
+    command:
+      - "sh"
+      - "/usr/src/graphsimviz/scripts/start_celery_worker.sh"
+    image: graphsimviz_backend
+    restart: always
+    build: .
+    container_name: graphsimviz_celery
+    hostname: graphsimviz_celery
+    env_file:
+      - './docker-django.env'
+    networks:
+      - graphsimviz_net
+    depends_on:
+      - redis
+      - db
+  celery-beat:
+    command:
+      - "sh"
+      - "/usr/src/digest/scripts/start_celery_beat.sh"
+    image: graphsimviz_backend
+    container_name: graphsimviz_celery_beat
+    hostname: graphsimviz_celery_beat
+    env_file:
+      - 'docker-django.env'
+    networks:
+      - graphsimviz_net
+    depends_on:
+      - redis
+      - db
 #  flower:
 #    image: mher/flower
-#    container_name: digest_flower
+#    container_name: graphsimviz_flower
 #    env_file:
-#      - './docker-django.env.dev'
+#      - 'docker-django.env'
+#    networks:
+#      - graphsimviz_net
 #    ports:
 #      - 8888:8888
-#    networks:
-#      - digest_net
+  rabbitmq:
+    image: rabbitmq:latest
+    restart: always
+    container_name: graphsimviz_queue
+    hostname: graphsimviz_queue
+    networks:
+      - graphsimviz_net
+    env_file:
+      - 'docker-django.env'
   db:
     image: postgres
     restart: always
     container_name: graphsimviz_db
-    hostname: db
+    hostname: graphsimviz_db
     ports:
       - 5432:5432
-#    networks:
-#      - gvl_net
     volumes:
       - graphsimviz_db_volume:/var/lib/postgresql/example_files
-    env_file:
-      - './docker-django.env.dev'
+    environment:
+      - POSTGRES_DB=graphsimviz
+      - POSTGRES_USER=gvl
+    networks:
+      - graphsimviz_net
     command:
       - "postgres"
       - "-c"
@@ -89,3 +100,6 @@ services:
 
 volumes:
   graphsimviz_db_volume:
+
+networks:
+  graphsimviz_net:

@@ -91,9 +91,9 @@ WSGI_APPLICATION = 'graphsimviz_backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': os.environ.get('SQL_ENGINE', 'django.db.backends.postgresql'),
-        'NAME': os.environ.get('SQL_DATABASE', 'gvl'),  # os.path.join(BASE_DIR, 'db.sqlite3')
-        'USER': os.environ.get('SQL_USER', 'gvl'),
-        'PASSWORD': os.environ.get('SQL_PASSWORD', 'globalvslocal'),
+        'NAME': os.environ.get('POSTGRES_DB', 'graphsimviz'),  # os.path.join(BASE_DIR, 'db.sqlite3')
+        'USER': os.environ.get('POSTGRES_USER', 'gvl'),
+        'PASSWORD': os.environ.get('POSTGRES_PASSWORD', 'globalvslocal'),
         'HOST': os.environ.get('SQL_HOST', 'localhost'),
         'PORT': os.environ.get('SQL_PORT', '5432'),
     }
@@ -163,12 +163,15 @@ CACHES = {
         }
     }
 }
-# CELERY_BROKER_URL = os.environ.get('CELERY_BROKER_URL')
-# CELERY_TIMEZONE = 'Europe/Berlin'
+CELERY_BROKER_URL = os.environ.get('CELERY_BROKER_URL')
+CELERY_TIMEZONE = 'Europe/Berlin'
 
-# from celery.schedules import crontab
+CELERY_BROKER_USER = os.environ.get('RABBITMQ_DEFAULT_USER')
+CELERY_BROKER_PASSWORD = os.environ.get('RABBITMQ_DEFAULT_PASS')
 
-# CELERY_BEAT_SCHEDULE = {
+from celery.schedules import crontab
+
+CELERY_BEAT_SCHEDULE = {
     # 'send-mails': {
     #     'task': 'graphsimviz_backend.mailer.check_mails',
     #     'schedule': 30.0,
@@ -177,4 +180,4 @@ CACHES = {
     #     'task': 'graphsimviz_backend.updater.run_update',
     #     'schedule': crontab(day_of_week=1, hour=1, minute=0)
     # }
-# }
+}

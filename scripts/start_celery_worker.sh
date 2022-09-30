@@ -1,1 +1,1 @@
-celery -A digest_backend worker -l INFO
+celery -A graphsimviz_backend worker -l INFO -Ofair --concurrency=2

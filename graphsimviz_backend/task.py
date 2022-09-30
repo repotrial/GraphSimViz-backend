@@ -7,7 +7,7 @@ import rq
 import os
 import json
 
-import graphsimviz_backend.simqt_executor
+import graphsimviz_backend.simqt_evaluator
 from graphsimviz_backend.tasks.task_hook import TaskHook
 from graphsimviz_backend.mailer import error_notification
 

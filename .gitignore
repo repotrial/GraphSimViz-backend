@@ -1,6 +1,6 @@
 .idea
 __pycache__
-docker-django.env.dev
+docker-django.env
 celerybeat-schedule.*
 __pycache__
 graphsimqt

@@ -1,5 +1,5 @@
 from django.core.management import BaseCommand
-import graphsimviz_backend.simqt_executor as executor
+import graphsimviz_backend.simqt_evaluator as executor
 from graphsimviz_backend.mailer import server_startup
 
 

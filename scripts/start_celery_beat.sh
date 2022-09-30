@@ -1,1 +1,1 @@
-celery -A digest_backend beat -l INFO
+celery -A graphsimviz_backend beat -l INFO
