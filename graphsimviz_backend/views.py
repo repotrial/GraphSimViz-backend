@@ -59,3 +59,10 @@ def get_networks(request) -> Response:
     return Response(
         networks.get_networks(request.data['network_type1'], request.data['network_type2'], request.data['id_space'],
                               request.data['nodes']))
+
+@api_view(['POST'])
+def get_first_neighbor_networks(request) -> Response:
+    print(request.data)
+    return Response(
+        networks.get_first_neighbor_networks(request.data['network_type1'], request.data['network_type2'], request.data['id_space'],
+                              request.data['nodes']))

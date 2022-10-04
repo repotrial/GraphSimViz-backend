@@ -75,9 +75,42 @@ def get_subnetwork(nodes, file):
     return out
 
 
+def get_first_neighbor_network(nodes, file):
+    from graph_tool.all import GraphView, Graph
+    g = read_graph(file)
+    filter = g.new_vertex_property('bool')
+    for v in g.vertices():
+        id = g.vp.ID[v]
+        if id in nodes:
+            filter[v] = True
+            for v2 in g.iter_out_neighbors(v):
+                filter[v2] = True
+    sub = GraphView(g, vfilt=filter)
+    sub = Graph(sub, prune=True)
+    node_map = dict()
+    for v in sub.vertices():
+        node_map[int(v)] = sub.vp.ID[v]
+    edges = []
+    for e in sub.edges():
+        edges.append((int(e.source()), int(e.target())))
+    out = {'nodes': node_map, 'edges': edges}
+
+    return out
+
+
+def get_first_neighbor_networks(network1, network2, id_space, nodes):
+    files = get_network_files(network1, network2, id_space)
+    out = []
+    for file in files:
+        out.append(get_first_neighbor_network(nodes, file))
+    return out
+
+
 def get_networks(network1, network2, id_space, nodes):
     files = get_network_files(network1, network2, id_space)
     networks = []
     for file in files:
         networks.append(get_subnetwork(nodes, file))
     return networks
+
+
