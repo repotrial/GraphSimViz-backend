@@ -88,6 +88,7 @@ services:
     environment:
       - POSTGRES_DB=graphsimviz
       - POSTGRES_USER=gvl
+      - POSTGRES_PASSWORD=globalvslocal
     networks:
       - graphsimviz_net
     command:

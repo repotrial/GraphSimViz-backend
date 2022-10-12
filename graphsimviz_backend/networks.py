@@ -22,10 +22,13 @@ def get_network_files(network1, network2, id_space):
     if wd is None:
         return None
     files = []
-    id_space_prefix = 'mondo' if id_space == 'MONDO' else 'icd10'
+    id_space_prefix = id_space.lower()
 
     suffix = network1.split("_")[1]
     suffix = suffix + ('_based_pruned_below4lev.gt' if suffix == 'symptom' else '_based.gt')
+
+    if 'comorbidity' in suffix and 'icd10' in id_space_prefix:
+        suffix = 'est_'+suffix
 
     file1 = os.path.join(wd, f'{id_space_prefix}_{suffix}')
     print(file1)
@@ -37,6 +40,9 @@ def get_network_files(network1, network2, id_space):
 
     suffix = network2.split("_")[1]
     suffix = suffix + ('_based_pruned_below4lev.gt' if suffix == 'symptom' else '_based.gt')
+
+    if 'comorbidity' in suffix and 'icd10' in id_space_prefix:
+        suffix = 'est_'+suffix
 
     file2 = os.path.join(wd, f'{id_space_prefix}_{suffix}')
     print(file2)
@@ -112,5 +118,3 @@ def get_networks(network1, network2, id_space, nodes):
     for file in files:
         networks.append(get_subnetwork(nodes, file))
     return networks
-
-

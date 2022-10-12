@@ -15,7 +15,7 @@ def compute_cluster_values(task_id):
     logger.info(f"Started cluster_p_value job {task.UID}")
     result = simqt_evaluator.calculate_cluster_scores(request['network_type1'], request['network_type2'],
                                                       request['id_space'],
-                                                      request['nodes'])
+                                                      request['nodes'], request['mwu'])
     task.done = True
     task.result = json.dumps(result)
     task.save()
