@@ -32,6 +32,7 @@ COPY ./data /usr/src/data
 WORKDIR /usr/src/data
 RUN unzip -q \*.zip
 RUN rm *.zip
+RUN mv GED_drug_indication_distances_vs_DrPPD GED_drug_indication_distances_vs_DrPD
 
 WORKDIR /usr/src/
 

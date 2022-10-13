@@ -11,14 +11,16 @@ def get_data_dir():
     return "/usr/src/data/"
 
 
-def get_network_comp_dir(network1, network2, id_space):
+def get_network_comp_dir(networkType, network1, network2, id_space):
     id_space_suffix = '_' + id_space if id_space == 'ICD10' else ''
     dir1 = os.path.join(get_data_dir(), f'{network1}_vs_{network2}{id_space_suffix}')
-    print(dir1)
+    print(networkType)
+    if networkType == 'drug-disease':
+        print(os.path.join(get_data_dir(), f'GED_drug_indication_distances_vs_DrPD{id_space_suffix}'))
+        return os.path.join(get_data_dir(), f'GED_drug_indication_distances_vs_DrPD{id_space_suffix}')
     if os.path.exists(dir1):
         return dir1
     dir2 = os.path.join(get_data_dir(), f'{network2}_vs_{network1}{id_space_suffix}')
-    print(dir2)
     if os.path.exists(dir2):
         return dir2
     return None
@@ -32,7 +34,9 @@ def get_local_p_value_file(dir):
     return os.path.join(dir, 'local_empirical_p_values.csv')
 
 
-def get_global_score_files(dir):
+def get_global_score_files(networkType, dir):
+    if networkType == 'drug-disease':
+        return[os.path.join(dir, 'global_empirical_p_values.csv'), os.path.join(dir, 'global_mwu_p_values_together.csv')]
     return [os.path.join(dir, 'global_empirical_p_values.csv'),
             os.path.join(dir, 'global_mwu_p_values.csv')]
 
@@ -54,14 +58,11 @@ def get_local_scores(path_to_local_p_values, node_ids):
     return local_p_values.to_dict()
 
 
-def get_cluster_scores(path_to_local_distances, node_ids, mwu):
+def get_cluster_scores(networkType, path_to_local_distances, node_ids, mwu):
     import pandas as pd
     import scipy.stats as sps
 
     p_values = {'distance_type': [], 'p_value': []}
-
-
-
 
     local_distances = pd.read_csv(str(path_to_local_distances))
     distance_types = list(set(local_distances['distance_type']))
@@ -121,7 +122,7 @@ def get_cluster_scores(path_to_local_distances, node_ids, mwu):
             sum_local_distance_random_list.append(sum_local_distance_random)
 
         if sum_local_distance_random_list[0].get('distance_type') == sum_local_distance_true.get('distance_type'):
-            for dt in range(3):
+            for dt in (range(3) if networkType != 'drug-disease' else range(1)):
                 distance_type = sum_local_distance_random_list[0].get('distance_type')[dt]
                 numleq = 0
                 p_values['distance_type'].append(distance_type)
@@ -133,33 +134,33 @@ def get_cluster_scores(path_to_local_distances, node_ids, mwu):
     return pd.DataFrame.from_dict(p_values).to_dict()
 
 
-def calculate_global_scores(network1, network2, id_space):
-    dir = get_network_comp_dir(network1, network2, id_space)
-    global_file = get_global_score_files(dir)
+def calculate_global_scores(networkType, network1, network2, id_space):
+    dir = get_network_comp_dir(networkType, network1, network2, id_space)
+    global_file = get_global_score_files(networkType, dir)
     return get_global_scores(global_file)
 
 
-def calculate_cluster_scores(network1, network2, id_space, node_ids, mwu):
-    dir = get_network_comp_dir(network1, network2, id_space)
+def calculate_cluster_scores(networkType, network1, network2, id_space, node_ids, mwu):
+    dir = get_network_comp_dir(networkType, network1, network2, id_space)
     local_distances = get_local_dist_file(dir)
-    return get_cluster_scores(local_distances, node_ids, mwu)
+    return get_cluster_scores(networkType,local_distances, node_ids, mwu)
 
 
-def calculate_local_scores(network1, network2, id_space, node_ids):
-    dir = get_network_comp_dir(network1, network2, id_space)
+def calculate_local_scores(networkType, network1, network2, id_space, node_ids):
+    dir = get_network_comp_dir(networkType, network1, network2, id_space)
     local_p_values = get_local_p_value_file(dir)
     return get_local_scores(local_p_values, node_ids)
 
 
-def calculate(network1, network2, id_space, disorders):
-    data_dir = get_network_comp_dir(network1, network2, id_space)
+def calculate(networkType, network1, network2, id_space, disorders, mwu):
+    data_dir = get_network_comp_dir(networkType, network1, network2, id_space)
     local_dist_file = get_local_dist_file(data_dir)
     local_p_value_file = get_local_p_value_file(data_dir)
 
     # compute_empirical_p_values(
     scores = {'local': get_local_scores(local_p_value_file, disorders),
-              'global': get_global_scores(get_global_score_files(data_dir)),
-              'cluster': get_cluster_scores(local_dist_file, disorders)}
+              'global': get_global_scores(get_global_score_files(networkType, data_dir)),
+              'cluster': get_cluster_scores(networkType, local_dist_file, disorders, mwu)}
 
     return scores
 

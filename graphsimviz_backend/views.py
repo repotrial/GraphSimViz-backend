@@ -10,14 +10,14 @@ from graphsimviz_backend.serializers import ClusterTaskSerializer
 
 @api_view(['POST'])
 def get_scores(request) -> Response:
-    return Response(simqt_evaluator.calculate(request.data['network_type1'], request.data['network_type2'],
-                                              request.data['id_space'], request.data['nodes']))
+    return Response(simqt_evaluator.calculate(request.data['network'], request.data['network_type1'], request.data['network_type2'],
+                                              request.data['id_space'], request.data['nodes'], request.data['mwu']))
 
 
 @api_view(['POST'])
 def get_local_scores(request) -> Response:
     print(request.data)
-    return Response(simqt_evaluator.calculate_local_scores(request.data['network_type1'], request.data['network_type2'],
+    return Response(simqt_evaluator.calculate_local_scores(request.data['network'], request.data['network_type1'], request.data['network_type2'],
                                                            request.data['id_space'], request.data['nodes']))
 
 
@@ -49,7 +49,7 @@ def get_cluster_scores(request) -> Response:
 def get_global_scores(request) -> Response:
     print(request.data)
     return Response(
-        simqt_evaluator.calculate_global_scores(request.data['network_type1'], request.data['network_type2'],
+        simqt_evaluator.calculate_global_scores(request.data['network'], request.data['network_type1'], request.data['network_type2'],
                                                 request.data['id_space']))
 
 
@@ -57,7 +57,7 @@ def get_global_scores(request) -> Response:
 def get_networks(request) -> Response:
     print(request.data)
     return Response(
-        networks.get_networks(request.data['network_type1'], request.data['network_type2'], request.data['id_space'],
+        networks.get_networks(request.data['network'], request.data['network_type1'], request.data['network_type2'], request.data['id_space'],
                               request.data['nodes']))
 
 @api_view(['POST'])

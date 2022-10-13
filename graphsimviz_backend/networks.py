@@ -17,7 +17,7 @@ def get_network_dir(network1, network2):
     return None
 
 
-def get_network_files(network1, network2, id_space):
+def get_network_files(networkType, network1, network2, id_space):
     wd = get_network_dir(network1, network2)
     if wd is None:
         return None
@@ -112,8 +112,8 @@ def get_first_neighbor_networks(network1, network2, id_space, nodes):
     return out
 
 
-def get_networks(network1, network2, id_space, nodes):
-    files = get_network_files(network1, network2, id_space)
+def get_networks(networkType, network1, network2, id_space, nodes):
+    files = get_network_files(networkType, network1, network2, id_space)
     networks = []
     for file in files:
         networks.append(get_subnetwork(nodes, file))

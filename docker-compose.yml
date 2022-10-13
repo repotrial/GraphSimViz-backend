@@ -12,7 +12,7 @@ services:
       - "sh"
       - "/usr/src/graphsimviz/docker-entrypoint.sh"
     ports:
-      - 8032:8000
+      - 8012:8000
     networks:
         - graphsimviz_net
     depends_on:
@@ -58,15 +58,6 @@ services:
     depends_on:
       - redis
       - db
-#  flower:
-#    image: mher/flower
-#    container_name: graphsimviz_flower
-#    env_file:
-#      - 'docker-django.env'
-#    networks:
-#      - graphsimviz_net
-#    ports:
-#      - 8888:8888
   rabbitmq:
     image: rabbitmq:latest
     restart: always
