@@ -36,7 +36,8 @@ def get_local_p_value_file(dir):
 
 def get_global_score_files(networkType, dir):
     if networkType == 'drug-disease':
-        return[os.path.join(dir, 'global_empirical_p_values.csv'), os.path.join(dir, 'global_mwu_p_values_together.csv')]
+        return [os.path.join(dir, 'global_empirical_p_values.csv'),
+                os.path.join(dir, 'global_mwu_p_values_together.csv')]
     return [os.path.join(dir, 'global_empirical_p_values.csv'),
             os.path.join(dir, 'global_mwu_p_values.csv')]
 
@@ -49,13 +50,15 @@ def get_global_scores(global_files):
 
 def get_local_scores(path_to_local_p_values, node_ids):
     import pandas as pd
-
     local_p_values = pd.read_csv(str(path_to_local_p_values))
     local_p_values = local_p_values[local_p_values['node'].isin(node_ids)]
-    local_p_values = local_p_values[local_p_values['distance_type'] == 'topology_only']
-    local_p_values = local_p_values[['node', 'p_value']]
-    local_p_values = local_p_values.rename(columns={'p_value': 'local_p_value'})
-    return local_p_values.to_dict()
+    local_values = {}
+    for distance_type in set(local_p_values['distance_type']):
+        p_values = local_p_values[['node', 'p_value','distance_type']]
+        p_values = p_values[p_values['distance_type'] == distance_type]
+        p_values = p_values.rename(columns={'p_value': 'local_p_value'})
+        local_values[distance_type] = p_values.to_dict()
+    return local_values
 
 
 def get_cluster_scores(networkType, path_to_local_distances, node_ids, mwu):
@@ -143,7 +146,7 @@ def calculate_global_scores(networkType, network1, network2, id_space):
 def calculate_cluster_scores(networkType, network1, network2, id_space, node_ids, mwu):
     dir = get_network_comp_dir(networkType, network1, network2, id_space)
     local_distances = get_local_dist_file(dir)
-    return get_cluster_scores(networkType,local_distances, node_ids, mwu)
+    return get_cluster_scores(networkType, local_distances, node_ids, mwu)
 
 
 def calculate_local_scores(networkType, network1, network2, id_space, node_ids):
