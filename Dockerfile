@@ -8,7 +8,7 @@ ENV LANG=C.UTF-8
 ENV TZ=Europe/Berlin
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-RUN apt-get update --no-install-recommends && apt-get upgrade -y && apt-get install -y supervisor nginx libgtk-3-dev wget git unzip
+RUN apt-get update --no-install-recommends && apt-get upgrade -y && apt-get install -y supervisor nginx libgtk-3-dev wget unzip
 RUN apt-get autoclean -y && apt-get autoremove -y
 
 
@@ -28,7 +28,12 @@ RUN pip install psycopg2-binary
 COPY ./requirements.txt ./requirements.txt
 RUN pip install -r requirements.txt
 
-COPY ./data /usr/src/data
+WORKDIR /usr/src/graphsimviz/
+
+COPY . .
+RUN mv data /usr/src/data
+RUN mv networks /usr/src/graphs
+
 WORKDIR /usr/src/data
 RUN unzip -q \*.zip
 RUN rm *.zip
@@ -36,22 +41,13 @@ RUN mv GED_drug_indication_distances_vs_DrPPD GED_drug_indication_distances_vs_D
 
 WORKDIR /usr/src/
 
-RUN apt-get install -y ssh git
-RUN mkdir ~/.ssh/
-RUN ssh-keyscan github.com >> ~/.ssh/known_hosts
-RUN git clone https://github.com/repotrial/graphsimqt.git
-RUN mv graphsimqt/data/graphs .
-RUN rm -rf graphsimqt
-
 WORKDIR graphs/disease_disease
 RUN unzip -q \*.zip
 RUN rm *.zip
 
 WORKDIR /usr/src/graphsimviz/
 
-COPY . .
-RUN rm -rf data
-
 COPY ./supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 EXPOSE 8000
+

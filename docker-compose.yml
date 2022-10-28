@@ -34,7 +34,6 @@ services:
       - "/usr/src/graphsimviz/scripts/start_celery_worker.sh"
     image: graphsimviz_backend
     restart: always
-    build: .
     container_name: graphsimviz_celery
     hostname: graphsimviz_celery
     env_file:

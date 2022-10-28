@@ -12,11 +12,9 @@ def get_data_dir():
 
 
 def get_network_comp_dir(networkType, network1, network2, id_space):
-    id_space_suffix = '_' + id_space if id_space == 'ICD10' else ''
+    id_space_suffix = '_' + id_space if id_space == 'ICD10' or id_space == 'UMLS' else ''
     dir1 = os.path.join(get_data_dir(), f'{network1}_vs_{network2}{id_space_suffix}')
-    print(networkType)
     if networkType == 'drug-disease':
-        print(os.path.join(get_data_dir(), f'GED_drug_indication_distances_vs_DrPD{id_space_suffix}'))
         return os.path.join(get_data_dir(), f'GED_drug_indication_distances_vs_DrPD{id_space_suffix}')
     if os.path.exists(dir1):
         return dir1
@@ -152,6 +150,7 @@ def calculate_cluster_scores(networkType, network1, network2, id_space, node_ids
 def calculate_local_scores(networkType, network1, network2, id_space, node_ids):
     dir = get_network_comp_dir(networkType, network1, network2, id_space)
     local_p_values = get_local_p_value_file(dir)
+    print(local_p_values)
     return get_local_scores(local_p_values, node_ids)
 
 
