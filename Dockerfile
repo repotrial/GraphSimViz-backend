@@ -39,6 +39,10 @@ RUN unzip -q \*.zip
 RUN rm *.zip
 RUN mv GED_drug_indication_distances_vs_DrPPD GED_drug_indication_distances_vs_DrPD
 
+WORKDIR GED_drug_indication_distances_vs_DrPD_UMLS
+
+RUN mv global_mwu_p_values.csv global_mwu_p_values_together.csv
+
 WORKDIR /usr/src/
 
 WORKDIR graphs/disease_disease
