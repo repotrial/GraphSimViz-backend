@@ -137,7 +137,9 @@ def get_cluster_scores(networkType, path_to_local_distances, node_ids, mwu):
 
 def calculate_global_scores(networkType, network1, network2, id_space):
     dir = get_network_comp_dir(networkType, network1, network2, id_space)
+    print(dir)
     global_file = get_global_score_files(networkType, dir)
+    print(global_file)
     return get_global_scores(global_file)
 
 
