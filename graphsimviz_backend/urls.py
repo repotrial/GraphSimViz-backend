@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.urls import path
 
-from graphsimviz_backend.views import get_scores, get_global_scores, get_cluster_scores, get_local_scores, get_networks, get_first_neighbor_networks
+from graphsimviz_backend.views import get_scores, get_global_scores, get_cluster_scores, get_local_scores, get_networks, get_first_neighbor_networks, download_results
 urlpatterns = [
     path('get_scores', get_scores),
     path('get_global_scores', get_global_scores),
