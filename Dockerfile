@@ -36,7 +36,10 @@ RUN mv networks /usr/src/graphs
 
 WORKDIR /usr/src/data
 RUN unzip -q \*.zip
-RUN rm *.zip
+RUN mkdir results
+RUN mv *.zip results/
+RUN zip -r results.zip results/
+RUN rm -rf results/
 RUN mv GED_drug_indication_distances_vs_DrPPD GED_drug_indication_distances_vs_DrPD
 
 WORKDIR GED_drug_indication_distances_vs_DrPD_UMLS

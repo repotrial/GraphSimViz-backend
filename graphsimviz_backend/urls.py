@@ -23,6 +23,7 @@ urlpatterns = [
     path('get_local_scores', get_local_scores),
     path('get_networks', get_networks),
     path('get_fist_neighbor_networks', get_first_neighbor_networks),
+    path('download_results', download_results)
 
     # path('update',run_update),
     # path('sig_cont', run_sig_cont)
