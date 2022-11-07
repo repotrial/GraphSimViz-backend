@@ -24,8 +24,8 @@ services:
     command: [ "redis-server" ]
     container_name: graphsimviz_redis
     hostname: graphsimviz_redis
-#    networks:
-#      - graphsimviz_net
+    networks:
+      - graphsimviz_net
     depends_on:
       - db
   celery:
