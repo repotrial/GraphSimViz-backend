@@ -67,7 +67,7 @@ services:
     env_file:
       - 'docker-django.env'
   db:
-    image: postgres
+    image: postgres:14
     restart: always
     container_name: graphsimviz_db
     hostname: graphsimviz_db
