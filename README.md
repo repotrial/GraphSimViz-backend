@@ -1,6 +1,6 @@
-# Digest-web Backend service
+# GraphSimViz-web Backend service
 
-Django based backend service for the DIGEST web-app.
+Django based backend service for the GraphSimViz web-app.
 
 ## Setup
 
