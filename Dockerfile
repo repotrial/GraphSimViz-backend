@@ -22,7 +22,7 @@ RUN conda install -c conda-forge -y django=4.0.2
 
 RUN conda install -c conda-forge -y graph-tool==2.45
 
-RUN conda install -c conda-forge -y pandas scipy numpy seaborn networkx progress rise
+RUN conda install -c conda-forge -y pandas scipy numpy seaborn networkx progress
 
 RUN pip install psycopg2-binary
 COPY ./requirements.txt ./requirements.txt
