@@ -22,7 +22,12 @@ def get_scores(request) -> Response:
 
 @api_view(['GET'])
 def download_results(request) -> Response:
+    return download_file(os.path.join(simqt_evaluator.get_data_dir(), 'source_data.zip'))
+
+@api_view(['GET'])
+def download_data(request) -> Response:
     return download_file(os.path.join(simqt_evaluator.get_data_dir(), 'results.zip'))
+
 
 
 def download_file(file) -> Response:
