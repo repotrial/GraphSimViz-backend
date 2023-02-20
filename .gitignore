@@ -4,3 +4,4 @@ docker-django.env
 celerybeat-schedule.*
 __pycache__
 graphsimqt
+data/results
