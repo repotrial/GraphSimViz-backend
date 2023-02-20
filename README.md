@@ -39,3 +39,7 @@ Follow log of selected container:
 
 `docker logs -f $container_name`
 
+## Data
+
+Files for data directory can be found at https://wolken.zbh.uni-hamburg.de/index.php/s/BFAcsfNZqad7Y4c
+
