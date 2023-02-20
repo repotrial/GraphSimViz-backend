@@ -26,7 +26,7 @@ def download_results(request) -> Response:
 
 
 def download_file(file) -> Response:
-    response = StreamingHttpResponse(FileWrapper(open(file, 'rb'), 512), content_type=mimetypes.guess_type(file)[0])
+    response = StreamingHttpResponse(FileWrapper(open(file, 'rb'), 65536), content_type=mimetypes.guess_type(file)[0])
     response['Content-Disposition'] = 'attachment; filename=' + smart_str(os.path.split(file)[1])
     response['Content-Length'] = os.path.getsize(file)
     return response
