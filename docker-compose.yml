@@ -1,7 +1,7 @@
 version: '3.3'
 
 services:
-  app:
+  graphsimviz_app:
     image: graphsimviz_backend
     container_name: graphsimviz_backend
     build: .
@@ -16,9 +16,9 @@ services:
     networks:
         - graphsimviz_net
     depends_on:
-      - db
-      - redis
-  redis:
+      - graphsimviz_db
+      - graphsimviz_redis
+  graphsimviz_redis:
     image: redis
     restart: always
     command: [ "redis-server" ]
@@ -27,8 +27,8 @@ services:
     networks:
       - graphsimviz_net
     depends_on:
-      - db
-  celery:
+      - graphsimviz_db
+  graphsimviz_celery:
     command:
       - "sh"
       - "/usr/src/graphsimviz/scripts/start_celery_worker.sh"
@@ -41,9 +41,9 @@ services:
     networks:
       - graphsimviz_net
     depends_on:
-      - redis
-      - db
-  celery-beat:
+      - graphsimviz_redis
+      - graphsimviz_db
+  graphsimviz_celery-beat:
     command:
       - "sh"
       - "/usr/src/digest/scripts/start_celery_beat.sh"
@@ -55,9 +55,9 @@ services:
     networks:
       - graphsimviz_net
     depends_on:
-      - redis
-      - db
-  rabbitmq:
+      - graphsimviz_redis
+      - graphsimviz_db
+  graphsimviz_rabbitmq:
     image: rabbitmq:latest
     restart: always
     container_name: graphsimviz_queue
@@ -66,7 +66,7 @@ services:
       - graphsimviz_net
     env_file:
       - 'docker-django.env'
-  db:
+  graphsimviz_db:
     image: postgres:14
     restart: always
     container_name: graphsimviz_db
