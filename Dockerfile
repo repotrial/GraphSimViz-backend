@@ -22,7 +22,7 @@ RUN pip install --upgrade pip
 
 RUN pip install --upgrade cryptography
 
-RUN conda install -c conda-forge -y graph-tool==2.47
+RUN conda install -c conda-forge -y graph-tool==2.45
 
 RUN conda install -c conda-forge -y pandas scipy numpy seaborn networkx progress
 
