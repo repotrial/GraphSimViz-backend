@@ -19,10 +19,9 @@ WORKDIR /usr/src/graphsimviz/
 RUN #conda install conda python=3.9
 
 RUN pip install --upgrade pip
+RUN conda install -c conda-forge -y graph-tool==2.45
 
 RUN pip install --upgrade cryptography
-
-RUN conda install -c conda-forge -y graph-tool==2.45
 
 RUN conda install -c conda-forge -y pandas scipy numpy seaborn networkx progress
 
