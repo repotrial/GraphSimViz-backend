@@ -1,7 +1,15 @@
 version: '3.3'
 
 services:
-  graphsimviz_app:
+  website:
+    image: ghcr.io/repotrial/graphsimviz-frontend:main
+    container_name: graphsimviz_website
+    restart: always
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+    ports:
+      - 8011:80
+  app:
     image: graphsimviz_backend
     container_name: graphsimviz_backend
     build: .
