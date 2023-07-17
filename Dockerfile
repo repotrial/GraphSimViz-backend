@@ -21,7 +21,7 @@ RUN apt-get update && apt-get dist-upgrade -y
 RUN conda install conda python=3.9
 
 RUN pip install --upgrade pip
-RUN conda install -c conda-forge -y graph-tool==2.48
+RUN conda install -c conda-forge -y graph-tool==2.57
 
 RUN pip install --upgrade cryptography
 
