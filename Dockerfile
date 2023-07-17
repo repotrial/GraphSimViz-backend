@@ -1,10 +1,12 @@
 FROM andimajore/miniconda3_mantic
 WORKDIR /usr/src/graphsimviz/
 
-#ENV PYTHONDONTWRITEBYTECODE 1
-#ENV PYTHONUNBUFFERED 1
-#ENV LC_ALL=C.UTF-8
-#ENV LANG=C.UTF-8
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+ENV LC_ALL=C.UTF-8
+ENV LANG=C.UTF-8
+
+RUN apt-get update && apt-get dist-upgrade -y
 #ENV TZ=Europe/Berlin
 #RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 #
@@ -16,10 +18,10 @@ WORKDIR /usr/src/graphsimviz/
 #ENV PATH=$CONDA_DIR/bin:$PATH
 #RUN conda init bash
 
-RUN #conda install conda python=3.9
+RUN conda install conda python=3.9
 
 RUN pip install --upgrade pip
-RUN conda install -c conda-forge -y graph-tool==2.45
+RUN conda install -c conda-forge -y graph-tool==2.48
 
 RUN pip install --upgrade cryptography
 
