@@ -6,7 +6,7 @@ ENV PYTHONUNBUFFERED 1
 ENV LC_ALL=C.UTF-8
 ENV LANG=C.UTF-8
 
-RUN apt-get update && apt-get dist-upgrade -y
+RUN apt-get update && apt-get dist-upgrade -y && apt-get install -y supervisor nginx libgtk-3-dev wget unzip zip
 #ENV TZ=Europe/Berlin
 #RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 #
