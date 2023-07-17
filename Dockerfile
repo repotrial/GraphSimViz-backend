@@ -1,28 +1,28 @@
-FROM ubuntu:latest
+FROM andimajore/miniconda3_mantic
 WORKDIR /usr/src/graphsimviz/
 
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
-ENV LC_ALL=C.UTF-8
-ENV LANG=C.UTF-8
-ENV TZ=Europe/Berlin
-RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+#ENV PYTHONDONTWRITEBYTECODE 1
+#ENV PYTHONUNBUFFERED 1
+#ENV LC_ALL=C.UTF-8
+#ENV LANG=C.UTF-8
+#ENV TZ=Europe/Berlin
+#RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+#
+#RUN apt-get update --no-install-recommends && apt-get dist-upgrade -y && apt-get install -y supervisor nginx libgtk-3-dev wget unzip zip
+#RUN apt-get autoclean -y && apt-get autoremove -y
+#
+#ENV CONDA_DIR /opt/conda
+#RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-py38_4.12.0-Linux-x86_64.sh -O ~/miniconda.sh && /bin/bash ~/miniconda.sh -b -p /opt/conda
+#ENV PATH=$CONDA_DIR/bin:$PATH
+#RUN conda init bash
 
-RUN apt-get update --no-install-recommends && apt-get dist-upgrade -y && apt-get install -y supervisor nginx libgtk-3-dev wget unzip zip
-RUN apt-get autoclean -y && apt-get autoremove -y
-
-ENV CONDA_DIR /opt/conda
-RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-py38_4.12.0-Linux-x86_64.sh -O ~/miniconda.sh && /bin/bash ~/miniconda.sh -b -p /opt/conda
-ENV PATH=$CONDA_DIR/bin:$PATH
-RUN conda init bash
-
-RUN conda install conda python=3.8
+RUN #conda install conda python=3.9
 
 RUN pip install --upgrade pip
 
 RUN pip install --upgrade cryptography
 
-RUN conda install -c conda-forge -y graph-tool==2.45
+RUN conda install -c conda-forge -y graph-tool==2.47
 
 RUN conda install -c conda-forge -y pandas scipy numpy seaborn networkx progress
 
