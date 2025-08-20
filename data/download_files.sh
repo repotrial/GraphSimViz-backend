@@ -14,6 +14,7 @@ rm -rf result_data
 mv GED_drug_indication_distances_vs_DrPPD GED_drug_indication_distances_vs_DrPD
 cd GED_drug_indication_distances_vs_DrPD_UMLS
 mv global_mwu_p_values.csv global_mwu_p_values_together.csv
+cd ..
 
 echo "Preparing source data"
 wget -q https://cloud.uni-hamburg.de/public.php/dav/files/od5pEkwiAScWtc9/?accept=zip -O source_data.zip
