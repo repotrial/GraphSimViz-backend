@@ -1,22 +1,36 @@
-FROM andimajore/miniconda3_mantic
-WORKDIR /usr/src/graphsimviz/
-
+FROM ubuntu:noble as base
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 ENV LC_ALL=C.UTF-8
 ENV LANG=C.UTF-8
+ENV TZ=Europe/Berlin
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-RUN apt-get update && apt-get dist-upgrade -y && apt-get install -y supervisor nginx libgtk-3-dev wget unzip zip
-#ENV TZ=Europe/Berlin
-#RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
-#
-#RUN apt-get update --no-install-recommends && apt-get dist-upgrade -y && apt-get install -y supervisor nginx libgtk-3-dev wget unzip zip
-#RUN apt-get autoclean -y && apt-get autoremove -y
-#
-#ENV CONDA_DIR /opt/conda
-#RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-py38_4.12.0-Linux-x86_64.sh -O ~/miniconda.sh && /bin/bash ~/miniconda.sh -b -p /opt/conda
-#ENV PATH=$CONDA_DIR/bin:$PATH
-#RUN conda init bash
+RUN apt-get update && apt-get dist-upgrade -y && apt-get install -y supervisor libgtk-3-dev wget apt-utils nginx
+RUN apt-get update && apt-get install -y apt-transport-https ca-certificates curl gnupg lsb-release software-properties-common cron unzip zip
+RUN apt-get autoclean -y && apt-get autoremove -y && apt-get clean -y
+
+ENV CONDA_DIR /opt/conda
+RUN wget "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-$(uname)-$(uname -m).sh"
+RUN bash Miniforge3-$(uname)-$(uname -m).sh -b -p "${CONDA_DIR}"
+ENV PATH=$CONDA_DIR/bin:$PATH
+RUN chmod +x "${CONDA_DIR}/etc/profile.d/conda.sh"
+RUN "${CONDA_DIR}/etc/profile.d/conda.sh"
+RUN chmod +x "${CONDA_DIR}/etc/profile.d/mamba.sh"
+RUN "${CONDA_DIR}/etc/profile.d/mamba.sh"
+
+RUN conda init bash
+
+RUN mamba update -n base -c defaults mamba conda
+RUN mamba install -y python=3.10
+RUN mamba update -y --all
+RUN pip install pip==23
+RUN pip install --upgrade pip requests cryptography pyopenssl
+RUN chmod 777 -R /opt/conda
+
+
+FROM base
+WORKDIR /usr/src/graphsimviz/
 
 RUN conda install conda python=3.9
 
@@ -34,27 +48,19 @@ RUN pip install -r requirements.txt
 WORKDIR /usr/src/graphsimviz/
 
 COPY . .
-RUN mv data /usr/src/data
-RUN mv networks /usr/src/graphs
+RUN rm -rf networks
 
-WORKDIR /usr/src/data
-RUN unzip -q \*.zip
-RUN mkdir results
-RUN mv *.zip results/
-RUN zip -r results.zip results/
-RUN rm -rf results/
-RUN mv source_data/source_data.zip .
-RUN mv GED_drug_indication_distances_vs_DrPPD GED_drug_indication_distances_vs_DrPD
 
-WORKDIR GED_drug_indication_distances_vs_DrPD_UMLS
-
-RUN mv global_mwu_p_values.csv global_mwu_p_values_together.csv
+WORKDIR /usr/src/data/
+RUN mv /usr/src/graphsimviz/data/download_files.sh .
+RUN rm -rf /usr/src/graphsimviz/data
+RUN ./download_files.sh
 
 WORKDIR /usr/src/
-
-WORKDIR graphs/disease_disease
-RUN unzip -q \*.zip
-RUN rm *.zip
+RUN wget -q https://cloud.uni-hamburg.de/public.php/dav/files/Rw3McfsN7eSLHfG/?accept=zip -O graphs.zip
+RUN unzip -q graphs.zip
+RUN rm graphs.zip
+WORKDIR /usr/src/graphs/disease_disease
 
 WORKDIR /usr/src/graphsimviz/
 
