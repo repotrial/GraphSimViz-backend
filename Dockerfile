@@ -41,15 +41,15 @@ RUN pip install --upgrade cryptography
 
 RUN conda install -c conda-forge -y pandas scipy numpy seaborn networkx progress
 
-RUN pip install psycopg2-binary
-COPY ./requirements.txt ./requirements.txt
-RUN pip install -r requirements.txt
-
+RUN pip install psycopg2-binary poetry poetry-plugin-export
 WORKDIR /usr/src/graphsimviz/
+
+COPY pyproject.toml poetry.lock ./
+RUN poetry export -f requirements.txt --output requirements.txt --without-hashes
+RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 RUN rm -rf networks
-
 
 WORKDIR /usr/src/data/
 RUN mv /usr/src/graphsimviz/data/download_files.sh .
