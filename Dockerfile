@@ -25,7 +25,7 @@ RUN mamba update -n base -c defaults mamba conda
 RUN mamba install -y python=3.10
 RUN mamba update -y --all
 RUN pip install pip==23
-RUN pip install --upgrade pip requests cryptography pyopenssl
+RUN pip install --upgrade pip requests pyopenssl
 RUN chmod 777 -R /opt/conda
 
 
