@@ -32,14 +32,14 @@ RUN chmod 777 -R /opt/conda
 FROM base
 WORKDIR /usr/src/graphsimviz/
 
-RUN conda install conda python=3.9
+RUN mamba install conda python=3.9
 
 RUN pip install --upgrade pip
-RUN conda install -c conda-forge -y graph-tool==2.57
+RUN mamba install -c conda-forge -y graph-tool==2.57
 
 RUN pip install --upgrade cryptography
 
-RUN conda install -c conda-forge -y pandas scipy numpy seaborn networkx progress
+RUN mamba install -c conda-forge -y pandas scipy numpy seaborn networkx progress
 
 RUN pip install psycopg2-binary poetry poetry-plugin-export
 WORKDIR /usr/src/graphsimviz/
