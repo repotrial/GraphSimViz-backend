@@ -52,7 +52,7 @@ services:
   graphsimviz_celery-beat:
     command:
       - "sh"
-      - "/usr/src/digest/scripts/start_celery_beat.sh"
+      - "/usr/src/graphsimviz/scripts/start_celery_beat.sh"
     image: ghcr.io/repotrial/graphsimviz-backend:main
     container_name: graphsimviz_celery_beat
     hostname: graphsimviz_celery_beat
