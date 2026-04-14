@@ -31,16 +31,17 @@ def download_data(request):
 def download_file(file_path):
     if not os.path.exists(file_path):
         return Response({"error": f"File {file_path} not found"}, status=404)
-    try:
-        # FileResponse will automatically close the file when the response is finished.
-        response = FileResponse(open(file_path, 'rb'), as_attachment=True)
-        # Manually setting content type if guessable, though FileResponse does this too.
-        content_type, _ = mimetypes.guess_type(file_path)
-        if content_type:
-            response['Content-Type'] = content_type
-        return response
-    except Exception as e:
-        return Response({"error": str(e)}, status=500)
+    print(file_path)
+    # try:
+    # FileResponse will automatically close the file when the response is finished.
+    response = FileResponse(open(file_path, 'rb'), as_attachment=True)
+    # Manually setting content type if guessable, though FileResponse does this too.
+    content_type, _ = mimetypes.guess_type(file_path)
+    if content_type:
+        response['Content-Type'] = content_type
+    return response
+    # except Exception as e:
+    #     return Response({"error": str(e)}, status=500)
 
 
 @api_view(['POST'])
