@@ -20,8 +20,9 @@ pymemcache="3.5.0"
 django_redis="5.2.0"
 rq="1.10.1"
 celery="5.2.6"
-urllib3 = "^2.6.3"
+urllib3 = "^2.7.0"
 brotli = "^1.2.0"
+idna = "^3.15"
 
 [tool.poetry.dev-dependencies]
 
