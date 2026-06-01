@@ -32,7 +32,12 @@ RUN chmod 777 -R /opt/conda
 FROM base
 WORKDIR /usr/src/graphsimviz/
 
-RUN mamba install conda python=3.10
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+ENV LC_ALL=C.UTF-8
+ENV LANG=C.UTF-8
+
+RUN conda install conda python=3.10
 
 RUN pip install --upgrade pip
 RUN mamba install -c conda-forge -y graph-tool==2.98
