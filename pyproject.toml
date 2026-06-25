@@ -9,7 +9,7 @@ package-mode = false
 python =  ">=3.10,<3.14"
 djangorestframework = "^3.15.2"
 djangorestframework-camel-case= "1.1.2"
-cryptography="^46.0.7"
+cryptography="^48.0.1"
 entrypoints="0.3"
 requests="^2.33.0"
 django="^4.2.30"
