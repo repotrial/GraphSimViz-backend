@@ -1,4 +1,4 @@
-FROM ubuntu:noble as base
+FROM ubuntu:resolute as base
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 ENV LC_ALL=C.UTF-8
