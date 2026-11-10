@@ -40,9 +40,8 @@ ENV LANG=C.UTF-8
 RUN conda install conda python=3.10
 
 RUN pip install --upgrade pip
-RUN mamba install -c conda-forge -y graph-tool==2.57
-
-RUN mamba install -c conda-forge -y pandas scipy numpy seaborn networkx progress
+# One transaction: installing graph-tool 2.57 on its own downgrades shared libs and removes mamba from the base env
+RUN mamba install -c conda-forge -y graph-tool==2.57 pandas scipy numpy seaborn networkx progress
 
 RUN pip install psycopg2-binary poetry poetry-plugin-export
 WORKDIR /usr/src/graphsimviz/
