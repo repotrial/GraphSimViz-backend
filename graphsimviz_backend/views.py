@@ -90,16 +90,20 @@ def get_global_scores(request) -> Response:
 @api_view(['POST'])
 def get_networks(request) -> Response:
     print(request.data)
-    return Response(
-        networks.get_networks(request.data['network'], request.data['network_type1'], request.data['network_type2'],
-                              request.data['id_space'],
-                              request.data['nodes']))
+    result = networks.get_networks(request.data['network'], request.data['network_type1'],
+                                   request.data['network_type2'], request.data['id_space'],
+                                   request.data['nodes'])
+    if result is None:
+        return Response({"error": "No network files found for the requested networks and id space"}, status=404)
+    return Response(result)
 
 
 @api_view(['POST'])
 def get_first_neighbor_networks(request) -> Response:
     print(request.data)
-    return Response(
-        networks.get_first_neighbor_networks(request.data['network_type1'], request.data['network_type2'],
-                                             request.data['id_space'],
-                                             request.data['nodes']))
+    result = networks.get_first_neighbor_networks(request.data.get('network'), request.data['network_type1'],
+                                                  request.data['network_type2'], request.data['id_space'],
+                                                  request.data['nodes'])
+    if result is None:
+        return Response({"error": "No network files found for the requested networks and id space"}, status=404)
+    return Response(result)

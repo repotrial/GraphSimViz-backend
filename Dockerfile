@@ -40,7 +40,7 @@ ENV LANG=C.UTF-8
 RUN conda install conda python=3.10
 
 RUN pip install --upgrade pip
-RUN mamba install -c conda-forge -y graph-tool==2.98
+RUN mamba install -c conda-forge -y graph-tool==2.57
 
 RUN mamba install -c conda-forge -y pandas scipy numpy seaborn networkx progress
 

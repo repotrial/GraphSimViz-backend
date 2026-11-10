@@ -104,8 +104,10 @@ def get_first_neighbor_network(nodes, file):
     return out
 
 
-def get_first_neighbor_networks(network1, network2, id_space, nodes):
-    files = get_network_files(network1, network2, id_space)
+def get_first_neighbor_networks(networkType, network1, network2, id_space, nodes):
+    files = get_network_files(networkType, network1, network2, id_space)
+    if files is None:
+        return None
     out = []
     for file in files:
         out.append(get_first_neighbor_network(nodes, file))
@@ -114,6 +116,8 @@ def get_first_neighbor_networks(network1, network2, id_space, nodes):
 
 def get_networks(networkType, network1, network2, id_space, nodes):
     files = get_network_files(networkType, network1, network2, id_space)
+    if files is None:
+        return None
     networks = []
     for file in files:
         networks.append(get_subnetwork(nodes, file))
