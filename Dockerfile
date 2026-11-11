@@ -40,8 +40,11 @@ ENV LANG=C.UTF-8
 RUN conda install conda python=3.10
 
 RUN pip install --upgrade pip
-# One transaction: installing graph-tool 2.57 on its own downgrades shared libs and removes mamba from the base env
-RUN mamba install -c conda-forge -y graph-tool==2.57 pandas scipy numpy seaborn networkx progress
+# conda-forge ships graph-tool builds per x86-64 microarchitecture level (v1/v3/v4) and picks one by the
+# CPU of the build machine. The CI runner has AVX2/AVX-512, the server may not (SIGILL at runtime), so
+# force the baseline builds: override the detected CPU and pin the level explicitly.
+ENV CONDA_OVERRIDE_ARCHSPEC=x86_64
+RUN mamba install -c conda-forge -y graph-tool==2.98 "_x86_64-microarch-level=1" pandas scipy numpy seaborn networkx progress
 
 RUN pip install psycopg2-binary poetry poetry-plugin-export
 WORKDIR /usr/src/graphsimviz/
